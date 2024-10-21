@@ -238,7 +238,7 @@ Como executar nossa aplicação? Para executar esta aplicação, basta abrir o s
 ### 5. Cadastro de Produtos e Obtenção do Token de Acesso à API:
 <b>Como você pode ver nesta página, temos um botão para realizar login. Esse login se refere ao Mercado Livre e será através dele que iremos obter o token. Caso o login não seja feito, o formulário de cadastro de produtos não será habilitado, e, com isso, não será possível cadastrar nenhum produto.</b>
 
-![cadastro-produto-logado-ml](https://github.com/user-attachments/assets/06277b30-a740-49de-8cdf-89cf89487de4)
+![cadastro-produto-nao-logado-ml](https://github.com/user-attachments/assets/abdc19b5-063a-48bb-9e12-eb4f654ee51e)
 
 <b>É neste botão que a autenticação via OAuth entra em ação.</b>
 > Essa é a tela principal da nossa aplicação. Será aqui que iremos cadastrar os produtos no nosso banco de dados e no Mercado Livre.
