@@ -118,27 +118,43 @@ class ProdutoController extends Controller
             
             // Fazer o POST na API com o token de autenticação
             $response = Http::withoutVerifying()->withToken($token)->post($url, $dadosProduto);
-    
-            // Criando um novo produto com os dados do request
-            $produto = new Produto;
-            $produto->nome       = $request->input('input-nome');
-            $produto->descricao  = $request->input('input-descricao');
-            $produto->preco      = $inputPreco;
-            $produto->quantidade = $request->input('input-quantidade');
-            $produto->categoria  = $request->input('select-categoria');
-            $produto->imagem     = $caminhoImagem;
-    
-            // Salva o produto no banco de dados
-            $produto->save();
-    
-            // Tipo da meensagem
-            $status = 'success';
             
-            // Mensagem
-            $message = 'Produto cadastrado com sucesso!';
-    
-            // Mensagem Descrição
-            $msgDescricao = 'Acesse o produto cadastro no Mercado Livre.';                        
+            if(!$response['cause'][0]){
+                // Criando um novo produto com os dados do request
+                $produto = new Produto;
+                $produto->nome       = $request->input('input-nome');
+                $produto->descricao  = $request->input('input-descricao');
+                $produto->preco      = $inputPreco;
+                $produto->quantidade = $request->input('input-quantidade');
+                $produto->categoria  = $request->input('select-categoria');
+                $produto->imagem     = $caminhoImagem;
+                
+                // Salva o produto no banco de dados
+                $produto->save();
+                
+                // Tipo da meensagem
+                $status = 'success';
+                
+                // Mensagem
+                $message = 'Produto cadastrado com sucesso!';
+                
+                // Mensagem Descrição
+                $msgDescricao = 'Acesse o produto cadastro no Mercado Livre.';
+            }else{
+                // Tipo da meensagem
+                $status = 'error';
+                
+                // Mensagem
+                $message = 'Erro ao cadastrar o produto!';
+                
+                // Mensagem Descrição
+                $msgDescricao = '
+                    Houve algum erro ao realizar o cadastro deste produto no Mercado Livre.
+                    <br>
+                    <br>
+                    Mercado Livre: '.$response['cause'][0]['message'];
+                
+            }
     
         }catch (Exception $e){
     
@@ -147,9 +163,9 @@ class ProdutoController extends Controller
     
             // Mensagem
             $message = 'Erro ao cadastrar o produto!';
-    
+
             // Mensagem Descrição
-            $msgDescricao = 'Houve algum erro ao realizar o cadastro deste produto no Mercado Livre.';            
+            $msgDescricao = 'Houve algum erro ao realizar o cadastro deste produto no Mercado Livre.';
         }
 
         // Redireciona para a página inicial

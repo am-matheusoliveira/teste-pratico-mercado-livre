@@ -149,7 +149,7 @@
                     <div class="alert alert-danger">
                         <i class="fa-solid fa-triangle-exclamation"></i> {{ session('error') }}
                         <hr>
-                        <p>{{ session('msgDescricao') }}</p>
+                        <p>{!! session('msgDescricao') !!}</p>
                     </div>
                 @endif
                 
