@@ -10,6 +10,21 @@ use Exception;
 class ProdutoController extends Controller
 {   
     /**
+     * Status da Mensagem
+     */
+    private string $status = '';
+
+    /**
+     * Mensagem Genérica
+     */
+    private string $message = '';
+
+    /**
+     * Mensagem que será enviada
+     */
+    private string $msgDescricao = '';
+
+    /**
      * Método responsável por retornar o usuário a página de cadastro de produtos
      */
     public function index(){
@@ -19,7 +34,7 @@ class ProdutoController extends Controller
         // Variável que armazena o estado dos inputs
         $inputStatus = 'disabled';
 
-        // Verificando se variável de sessão 'tokenAPI' existe
+        // Verificando se a variável de sessão 'tokenAPI' existe
         if(session()->has('tokenAPI')){
             // Pegando o valor da variável
             $tokenAPI = session('tokenAPI');
@@ -43,7 +58,7 @@ class ProdutoController extends Controller
      * @param Request $request
      */
     public function cadastrarProduto(Request $request){
-        
+
         try{
             // Verificando se uma imagem foi enviada
             if ($request->hasFile('input-imagem')) {
@@ -54,7 +69,7 @@ class ProdutoController extends Controller
                 // Armazenamento da imagem na pasta Local
                 $imagem->store('produtos', 'public');
     
-                // Upload da imagem para o serviço o Imgbb
+                // Upload da imagem para o serviço Imgbb
                 $imagePath = $imagem->getRealPath();
 
                 // Convertendo a imagem no formato esperado pelo serviço
@@ -68,7 +83,6 @@ class ProdutoController extends Controller
                 
                 // Pegando a URL gerada pelo ImgBB
                 $caminhoImagem = $responseImgbb->json('data.url');
-    
             } else {
                 $caminhoImagem = null;
             }
@@ -77,22 +91,22 @@ class ProdutoController extends Controller
             $inputPreco = (empty($request->input('input-preco')) ? '0.00' : str_replace(',', '.', str_replace('.', '', $request->input('input-preco'))));
     
             // Obtendo o Token da Sessão
-            $token = session('tokenAPI');
-            
+            $token = session('tokenAPI');            
+
             // URL da API de produtos do Mercado Livre
             $url = 'https://api.mercadolibre.com/items';
     
             // Corpo da requisição com os dados do produto
             $dadosProduto = [
-                "title" => $request->input('input-nome'),
-                "category_id" => $request->input('select-categoria'),
-                "price" => $inputPreco,
-                "currency_id" => "BRL",
+                "title"              => $request->input('input-nome'),
+                "category_id"        => $request->input('select-categoria'),
+                "price"              => $inputPreco,
+                "currency_id"        => "BRL",
                 "available_quantity" => $request->input('input-quantidade'),
-                "buying_mode" => "buy_it_now",
-                "listing_type_id" => "gold_special",
-                "condition" => "new",
-                "description" => [
+                "buying_mode"        => "buy_it_now",
+                "listing_type_id"    => "gold_special",
+                "condition"          => "new",
+                "description"        => [
                     "plain_text" => $request->input('input-descricao')
                 ],
                 "pictures" => [
@@ -118,8 +132,9 @@ class ProdutoController extends Controller
             
             // Fazer o POST na API com o token de autenticação
             $response = Http::withoutVerifying()->withToken($token)->post($url, $dadosProduto);
-            
-            if(!$response['cause'][0]){
+
+            // Verificando se o POST obteve Sucesso
+            if(!isset($response['cause'][0])){
                 // Criando um novo produto com os dados do request
                 $produto = new Produto;
                 $produto->nome       = $request->input('input-nome');
@@ -131,45 +146,33 @@ class ProdutoController extends Controller
                 
                 // Salva o produto no banco de dados
                 $produto->save();
-                
-                // Tipo da meensagem
-                $status = 'success';
-                
-                // Mensagem
-                $message = 'Produto cadastrado com sucesso!';
-                
-                // Mensagem Descrição
-                $msgDescricao = 'Acesse o produto cadastro no Mercado Livre.';
+
+                // Retornando mensagem
+                $this->mensagemRetorno(
+                    'success',
+                    'Produto cadastrado com sucesso!',
+                    'Acesse o produto cadastro no Mercado Livre.'
+                );
             }else{
-                // Tipo da meensagem
-                $status = 'error';
-                
-                // Mensagem
-                $message = 'Erro ao cadastrar o produto!';
-                
-                // Mensagem Descrição
-                $msgDescricao = '
-                    Houve algum erro ao realizar o cadastro deste produto no Mercado Livre.
-                    <br>
-                    <br>
-                    Mercado Livre: '.$response['cause'][0]['message'];
-                
+                // Retornando mensagem
+                $this->mensagemRetorno(
+                    'error',
+                    'Erro ao cadastrar o produto!',
+                    'Houve algum erro ao realizar o cadastro deste produto no Mercado Livre. <br> <br> Mercado Livre: '.$response['cause'][0]['message']
+                );
             }
     
         }catch (Exception $e){
-    
-            // Tipo da meensagem
-            $status = 'error';
-    
-            // Mensagem
-            $message = 'Erro ao cadastrar o produto!';
-
-            // Mensagem Descrição
-            $msgDescricao = 'Houve algum erro ao realizar o cadastro deste produto no Mercado Livre.';
+            // Retornando mensagem
+            $this->mensagemRetorno(
+                'error',
+                'Erro ao cadastrar o produto!',
+                'Houve algum erro ao realizar o cadastro deste produto no Mercado Livre.'
+            );
         }
 
         // Redireciona para a página inicial
-        return redirect('/produto')->with($status, $message)->with('msgDescricao', $msgDescricao)->with('response', $response->json());
+        return redirect('/produto')->with($this->status, $this->message)->with('msgDescricao', $this->msgDescricao)->with('response', $response->json());
     }
 
     /**
@@ -192,28 +195,40 @@ class ProdutoController extends Controller
 
             // Armazenando o token na sessão
             session(['tokenAPI' => $response->json()['access_token']]);
-            
-            // Tipo da meensagem
-            $status = 'success';
-            
-            // Mensagem
-            $message = 'Token Gerado com sucesso!';
 
-            // Mensagem Descrição
-            $msgDescricao = 'Agora você pode realizar o cadastro de produtos com seu Token Gerado!';
-
+            // Retornando mensagem
+            $this->mensagemRetorno(
+                'success', 
+                'Token Gerado com sucesso!', 
+                'Agora você pode realizar o cadastro de produtos com seu Token Gerado!'
+            );
         }catch (Exception $e){
-            // Tipo da meensagem
-            $status = 'error';
-
-            // Mensagem
-            $message = 'Erro ao Gerar Token!';
-
-            // Mensagem Descrição
-            $msgDescricao = 'Holve algum erro durante a criação do Token para acesso as APIs!';
-        }        
+            // Retornando mensagem
+            $this->mensagemRetorno(
+                'error', 
+                'Erro ao Gerar Token!', 
+                'Holve algum erro durante a criação do Token para acesso as APIs!'
+            );
+        }
     
         // Redireciona para a página inicial
-        return redirect('/produto')->with($status, $message)->with('msgDescricao', $msgDescricao);
+        return redirect('/produto')->with($this->status, $this->message)->with('msgDescricao', $this->msgDescricao);
+    }
+
+    /**
+     * Método responsável por retornar mensagens personalizadas para o FrontEnd
+     * @param string $status
+     * @param string $message
+     * @param string $msgDescricao
+     */
+    public function mensagemRetorno($status, $message, $msgDescricao){
+        // Status da Mensagem
+        $this->status = $status;
+    
+        // Mensagem Genérica
+        $this->message = $message;
+        
+        // Mensagem que será enviada
+        $this->msgDescricao = $msgDescricao;
     }
 }
