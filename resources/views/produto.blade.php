@@ -157,4 +157,18 @@
 
         </div>
     </div>
+
+    <x-slot name="customCode">
+        <script>            
+            // Obtendo o Input 'input-preco'
+            const inputPreco = document.getElementById('input-preco');
+
+            // Obtendo o Input 'input-quantidade'
+            const inputQuantidade = document.getElementById('input-quantidade');
+            
+            // Chamando Função
+            formatarMoedaBR(inputPreco);
+            somenteNumero(inputQuantidade);
+        </script>
+    </x-slot>    
 </x-app-layout>

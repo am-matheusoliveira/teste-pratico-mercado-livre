@@ -47,10 +47,17 @@
             </main>
         </div>
 
-        <!-- Importação do arquivo JS compilado pelo Vite -->
-        {{-- <script src="{{ secure_asset('build/assets/app--nf08Gx-.js') }}"></script> --}}        
-        
-        <!-- Importação do arquivo JS customizado -->    
-        <script src="{{ secure_asset('js/custom.js') }}"></script>                
-    </body>
+        <!-- Page Footer -->        
+        <footer>
+            <!-- Importação do arquivo JS compilado pelo Vite -->
+            {{-- <script src="{{ secure_asset('build/assets/app--nf08Gx-.js') }}"></script> --}}
+
+            @isset($customCode)
+                <!-- Importação do arquivo JS customizado -->
+                <script src="{{ secure_asset('js/custom.js') }}"></script>
+                
+                {{ $customCode }}
+            @endisset
+        </footer>
+    </body> 
 </html>
