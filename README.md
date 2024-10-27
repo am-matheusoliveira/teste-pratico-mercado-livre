@@ -5,7 +5,7 @@
 Este projeto realiza a integração com a API do Mercado Livre, permitindo ao usuário cadastrar produtos em uma aplicação criada na plataforma Mercado Livre Developer.
 
 ## Deploy do projeto em produção
-Este projeto está hospedado no serviço EC2 da AWS. Você pode acessá-lo e testá-lo agora mesmo clicando no link: [Deploy do Projeto no EC2](https://501d-2804-18-89d-1914-202c-6fce-50f0-fabd.ngrok-free.app)
+Este projeto está hospedado no serviço EC2 da AWS. Você pode acessá-lo e testá-lo agora mesmo clicando no link: [Deploy do Projeto no EC2](https://0229-54-207-10-129.ngrok-free.app/)
 
 ## Funcionalidades desta Aplicação
 Todas as funcionalidades exigidas no **enunciado** foram desenvolvidas, inclusive as **funcionalidades bônus.** Abaixo seguem as principais funcionalidades deste projeto:
@@ -249,7 +249,7 @@ Como executar nossa aplicação? Para executar esta aplicação, basta abrir o s
 > Essa é a tela principal da nossa aplicação. Será aqui que iremos cadastrar os produtos no nosso banco de dados e no Mercado Livre.
 
 ## Não conseguiu rodar o projeto? 
-<b>Se, após a execução de todas as etapas anteriores, você ainda não conseguir rodar este projeto, não se preocupe! Você ainda pode acessá-lo e testá-lo através do deploy de produção. Acesse o link deste projeto, que está rodando no AWS EC2: [Deploy do Projeto no EC2](https://501d-2804-18-89d-1914-202c-6fce-50f0-fabd.ngrok-free.app)</b>
+<b>Se, após a execução de todas as etapas anteriores, você ainda não conseguir rodar este projeto, não se preocupe! Você ainda pode acessá-lo e testá-lo através do deploy de produção. Acesse o link deste projeto, que está rodando no AWS EC2: [Deploy do Projeto no EC2](https://0229-54-207-10-129.ngrok-free.app/)</b>
 
 ## Considerações Finais
 <b>Foi realmente muito desafiador criar esta solução, devido às regras do Mercado Livre. Mas boa parte de tudo o que eu expliquei poderia ter sido evitada se houvesse um domínio na web com HTTPS e SSL. Não seria necessária toda essa explicação.</b>
