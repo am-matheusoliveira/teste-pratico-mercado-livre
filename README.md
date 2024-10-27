@@ -170,7 +170,12 @@ php artisan serve --host=localhost --port=8000
 ```
 > Para que tudo corra perfeitamente bem, neste projeto usamos o servidor do próprio Laravel. É nele que o nGrok irá responder às requisições na porta 8000.
 
-### 1. Executando o nGrok para obter a URL com o HTTPS
+### 2. Configurar o Token do nGrok
+```
+ngrok config add-authtoken 2nalCZo5ID6B5IhHLuMDu3BZzy0_2p7RTAavPoU33r9aF5Sn1
+```
+
+### 3. Executando o nGrok para obter a URL com o HTTPS
 <b>OBS: É importante que o servidor do Laravel esteja em execução antes do nGrok!</b>
 ```
 ngrok http 8000 --authtoken=2nalCZo5ID6B5IhHLuMDu3BZzy0_2p7RTAavPoU33r9aF5Sn1
