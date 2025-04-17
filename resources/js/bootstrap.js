@@ -1,7 +1,7 @@
 
 // Importar Bootstrap
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Importar o Axios
 import axios from 'axios';
