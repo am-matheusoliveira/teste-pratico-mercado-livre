@@ -67,7 +67,7 @@ class ProdutoController extends Controller
                 $imagem = $request->file('input-imagem');
     
                 // Armazenamento da imagem na pasta Local
-                $imagem->store('produtos', 'public');
+                $imagem->store('images/produtos', 'public');
     
                 // Upload da imagem para o serviço Imgbb
                 $imagePath = $imagem->getRealPath();
