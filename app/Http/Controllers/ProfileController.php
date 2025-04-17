@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -37,6 +37,35 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+
+    /**
+     * Update the user's photo.
+     */
+    public function updatePhoto(Request $request): RedirectResponse
+    {   
+        $request->validateWithBag('updatePhoto', [
+            'picture' => ['nullable', 'file', 'mimes:jpg,png,gif', 'max:3072'],
+        ]);
+        
+        // Caso esteja removendo a imagem
+        if ($request->boolean('remove_picture')) {
+            $request->user()->update([
+                'profile_photo_path' => null
+            ]);
+        }
+        
+        // Caso esteja carregando uma nova imagem
+        elseif ($request->hasFile('picture')) {
+            $path = $request->file('picture')->storePublicly('images/profile', 'public');
+    
+            $request->user()->update([
+                'profile_photo_path' => $path
+            ]);
+        }
+        
+        return Redirect::route('profile.edit')->with('status', 'profile-photo-updated');
+    }    
+    
     /**
      * Delete the user's account.
      */
