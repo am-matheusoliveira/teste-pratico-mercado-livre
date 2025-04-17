@@ -2,9 +2,9 @@
 /database-app
 /.phpunit.cache
 /node_modules
-# /public/build
+/public/build
 /public/hot
-# /public/storage
+/public/storage/images/profile/*
 /storage/*.key
 /storage/pail
 /vendor
