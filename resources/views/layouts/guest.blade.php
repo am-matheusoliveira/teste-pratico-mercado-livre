@@ -25,18 +25,24 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">            
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
-
-            <h2 class="p-0 my-0">Integração Mercado Livre</h2>
-
-            <div class="m-0 w-full sm:max-w-md mt-6 mt-2 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 px-4">
+            {{--
+                <div>
+                    <a href="/">
+                        <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    </a>
+                </div>
+            --}}
+            <div class="px-4 md:px-12 py-6 md:py-8 border-[2px] border-solid border-[#dee2e6] rounded-md sm:rounded-lg w-full max-w-[500px] bg-white shadow-md overflow-hidden">
                 {{ $slot }}
             </div>
         </div>
+        
+        @isset($customJsCode)
+            <!-- Importação do arquivo JS customizado -->
+            {{ $customJsCode }}
+
+            <script src="{{ secure_asset('js/customGuest.js') }}"></script>
+        @endisset
     </body>
 </html>

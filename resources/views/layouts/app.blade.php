@@ -14,24 +14,20 @@
         <!-- Titulo da aplicação -->
         {{-- <title>{{ config('app.name', 'Integração - API Mercado Livre') }}</title> --}}
         <title>Integração - API Mercado Livre</title>
-
-        <!-- Importação do arquivo CSS compilado pelo Vite -->
-        {{-- <link rel="stylesheet" href="{{ secure_asset('build/assets/app-D0ZZ6qyk.css') }}"> --}}
-        {{-- <link rel="stylesheet" href="{{ secure_asset('build/assets/app-CB61jlRJ.css') }}"> --}}
-
+        
         <!-- Importação do arquivo CSS customizado -->
         <link rel="stylesheet" href="{{ secure_asset('css/custom.css') }}">
         
         <!-- Biblioteca de icones - Font-awesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
+        
         <!-- Vite -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-gray-100">
         <div class="min-h-screen">
             @include('layouts.navigation')
-
+            
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white shadow">
@@ -46,17 +42,15 @@
                 {{ $slot }}
             </main>
         </div>
-
-        <!-- Page Footer -->        
+        
+        <!-- Page Footer -->
         <footer>
-            <!-- Importação do arquivo JS compilado pelo Vite -->
-            {{-- <script src="{{ secure_asset('build/assets/app--nf08Gx-.js') }}"></script> --}}
-
-            @isset($customCode)
-                <!-- Importação do arquivo JS customizado -->
+            @isset($customJsCode)            
                 <script src="{{ secure_asset('js/custom.js') }}"></script>
+                <script src="{{ secure_asset('js/customGuest.js') }}"></script>
                 
-                {{ $customCode }}
+                <!-- Importação do arquivo JS customizado -->
+                {{ $customJsCode }}
             @endisset
         </footer>
     </body> 

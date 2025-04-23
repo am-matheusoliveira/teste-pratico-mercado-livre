@@ -139,7 +139,7 @@
         </div>
     </div>
 
-    <x-slot name="customCode">
+    <x-slot name="customJsCode">
         <script>            
             // Obtendo o Input 'input-preco'
             const inputPreco = document.getElementById('input-preco');            
