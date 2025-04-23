@@ -54,22 +54,3 @@ function somenteNumero(input){
         e.target.value = valor;
     });
 }
-
-/* Função para validar os campos do Formulário */
-(function () {
-    'use strict'
-
-    const forms = document.querySelectorAll('.requires-validation');
-
-    Array.from(forms).forEach(function (form){
-
-        form.addEventListener('submit', function (event){
-            if (!form.checkValidity()){
-                event.preventDefault();
-                event.stopPropagation();
-            }
-
-            form.classList.add('was-validated');
-        }, false);
-    });
-})()
