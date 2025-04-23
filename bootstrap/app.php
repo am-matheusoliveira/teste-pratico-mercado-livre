@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([            
+            'store.next.redirect' => \App\Http\Middleware\StoreNextRedirectRoute::class,
             'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         ]);
     })
