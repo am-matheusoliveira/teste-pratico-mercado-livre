@@ -1,0 +1,1 @@
+<hr class="mt-12 mb-8 border-t border-gray-300">
